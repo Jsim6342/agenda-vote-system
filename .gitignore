@@ -37,5 +37,7 @@ out/
 .vscode/
 
 ### 설정 파일 ###
-src/main/resources/application.yml
-src/main/resources/logback-spring.xml
+src/main/resources/
+
+### 테스트 코드(임시) ###
+src/test/

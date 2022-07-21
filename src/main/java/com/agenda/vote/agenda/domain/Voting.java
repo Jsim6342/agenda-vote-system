@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -36,5 +37,24 @@ public class Voting extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private BaseStatus status;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Voting)) return false;
+        Voting voting = (Voting) o;
+        return Objects.equals(id, voting.id) && Objects.equals(user, voting.user) && Objects.equals(vote, voting.vote) && opinion == voting.opinion && Objects.equals(votingCount, voting.votingCount) && status == voting.status;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, vote, opinion, votingCount, status);
+    }
+
+    public void updateOnStatus() {
+        this.status = BaseStatus.ACTIVE;
+    }
+
+    public void updateOffStatus() {
+        this.status = BaseStatus.INACTIVE;
+    }
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -30,5 +31,24 @@ public class Agenda extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private BaseStatus status;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Agenda)) return false;
+        Agenda agenda = (Agenda) o;
+        return id.equals(agenda.id) && user.equals(agenda.user) && title.equals(agenda.title) && content.equals(agenda.content) && status == agenda.status;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, title, content, status);
+    }
+
+    public void updateOnStatus() {
+        this.status = BaseStatus.ACTIVE;
+    }
+
+    public void updateOffStatus() {
+        this.status = BaseStatus.INACTIVE;
+    }
 }

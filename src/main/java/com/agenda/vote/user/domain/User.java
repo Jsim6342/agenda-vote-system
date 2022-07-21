@@ -3,10 +3,12 @@ package com.agenda.vote.user.domain;
 import com.agenda.vote.common.AbstractEntity;
 import com.agenda.vote.common.BaseStatus;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -29,5 +31,41 @@ public class User extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private BaseStatus status;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return isOAuth == user.isOAuth && Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(votingRightCount, user.votingRightCount) && status == user.status;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, password, votingRightCount, isOAuth, status);
+    }
+
+    @Builder
+    public User(Long id, String email, String password, Integer votingRightCount, boolean isOAuth, BaseStatus status) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.votingRightCount = votingRightCount;
+        this.isOAuth = isOAuth;
+        this.status = status;
+    }
+
+
+    public void update(User user) {
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.votingRightCount = user.getVotingRightCount();
+    }
+
+    public void updateOnStatus() {
+        this.status = BaseStatus.ACTIVE;
+    }
+
+    public void updateOffStatus() {
+        this.status = BaseStatus.INACTIVE;
+    }
 }

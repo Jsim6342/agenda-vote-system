@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -37,4 +38,25 @@ public class Vote extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private BaseStatus status;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vote)) return false;
+        Vote vote = (Vote) o;
+        return Objects.equals(id, vote.id) && Objects.equals(agenda, vote.agenda) && type == vote.type && Objects.equals(agreeCount, vote.agreeCount) && Objects.equals(disagreeCount, vote.disagreeCount) && Objects.equals(startDate, vote.startDate) && Objects.equals(endDate, vote.endDate) && status == vote.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, agenda, type, agreeCount, disagreeCount, startDate, endDate, status);
+    }
+
+    public void updateOnStatus() {
+        this.status = BaseStatus.ACTIVE;
+    }
+
+    public void updateOffStatus() {
+        this.status = BaseStatus.INACTIVE;
+    }
 }
