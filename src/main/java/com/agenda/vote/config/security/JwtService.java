@@ -1,7 +1,6 @@
 package com.agenda.vote.config.security;
 
 import com.agenda.vote.common.exception.CertifiedException;
-import com.agenda.vote.config.security.certification.Secret;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -12,6 +11,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+
+import static com.agenda.vote.config.security.certification.Secret.JWT_SECRET_KEY;
 
 
 @Service
@@ -29,7 +30,7 @@ public class JwtService {
                 .claim("userId",userId)
                 .setIssuedAt(now)
                 .setExpiration(new Date(System.currentTimeMillis()+1*(1000*60*60*24*365)))
-                .signWith(SignatureAlgorithm.HS256, Secret.JWT_SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, JWT_SECRET_KEY)
                 .compact();
     }
 
@@ -57,7 +58,7 @@ public class JwtService {
         Jws<Claims> claims;
         try{
             claims = Jwts.parser()
-                    .setSigningKey(Secret.JWT_SECRET_KEY)
+                    .setSigningKey(JWT_SECRET_KEY)
                     .parseClaimsJws(accessToken);
         } catch (Exception ignored) {
             throw new CertifiedException("유효하지 않은 토큰입니다.");

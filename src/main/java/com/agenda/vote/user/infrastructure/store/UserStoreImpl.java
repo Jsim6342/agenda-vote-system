@@ -1,5 +1,6 @@
 package com.agenda.vote.user.infrastructure.store;
 
+import com.agenda.vote.common.response.ErrorCode;
 import com.agenda.vote.user.domain.User;
 import com.agenda.vote.user.domain.user.interfaces.UserStore;
 import com.agenda.vote.user.exception.NoExistUserException;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import static com.agenda.vote.common.entity.BaseStatus.ACTIVE;
+import static com.agenda.vote.common.response.ErrorCode.USER_NOT_FOUND;
 
 @Slf4j
 @Component
@@ -18,24 +20,21 @@ public class UserStoreImpl implements UserStore {
 
     @Override
     public User saveUser(User user) {
-        // TODO 로직 추가
         return userRepository.save(user);
     }
 
     @Override
     public User updateUser(Long userId, User updateUser) {
-        // TODO 로직 추가
         User existUser = userRepository.findByIdAndStatus(userId, ACTIVE)
-                .orElseThrow(() -> new NoExistUserException("일치하는 회원 정보가 없습니다."));
+                .orElseThrow(() -> new NoExistUserException(USER_NOT_FOUND.getErrorMsg()));
         existUser.update(updateUser);
         return existUser;
     }
 
     @Override
     public User deleteUser(Long userId) {
-        // TODO 로직 추가
         User user = userRepository.findByIdAndStatus(userId, ACTIVE)
-                .orElseThrow(() -> new NoExistUserException("일치하는 회원 정보가 없습니다."));
+                .orElseThrow(() -> new NoExistUserException(USER_NOT_FOUND.getErrorMsg()));
         user.updateOffStatus();
         return user;
     }

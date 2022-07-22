@@ -27,8 +27,6 @@ public class User extends AbstractEntity {
 
     private Integer votingRightCount;
 
-    private boolean isOAuth;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -40,21 +38,20 @@ public class User extends AbstractEntity {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return isOAuth == user.isOAuth && Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(votingRightCount, user.votingRightCount) && status == user.status;
+        return Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(votingRightCount, user.votingRightCount) && status == user.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, votingRightCount, isOAuth, status);
+        return Objects.hash(id, email, password, votingRightCount, status);
     }
 
     @Builder
-    public User(Long id, String email, String password, Integer votingRightCount, boolean isOAuth, Role role, BaseStatus status) {
+    public User(Long id, String email, String password, Integer votingRightCount, Role role, BaseStatus status) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.votingRightCount = votingRightCount;
-        this.isOAuth = isOAuth;
         this.role = role;
         this.status = status;
     }

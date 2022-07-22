@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class LoginCheckInterceptor implements HandlerInterceptor {
+public class AuthCheckInterceptor implements HandlerInterceptor {
 
     private final JwtService jwtService;
     private final UserReaderImpl userReader;
@@ -42,7 +42,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                 request.setAttribute("userId", 0L);
                 return true;
             }
-            // TODO: request URI을 바탕으로 redirect 경로 추가.
             throw new CertifiedException("로그인 정보가 없습니다.");
         }
 

@@ -9,6 +9,7 @@ public interface UserReader {
 
     List<User> selectUserList();
     User selectUser(Long userId);
+    User selectUserByEmail(String email);
     boolean checkAdmin(Long userId);
 
 }
