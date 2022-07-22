@@ -1,9 +1,11 @@
 package com.agenda.vote.agenda.domain;
 
+import com.agenda.vote.agenda.interfaces.request.AgendaUpdateRequest;
 import com.agenda.vote.common.entity.AbstractEntity;
 import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,9 +46,20 @@ public class Agenda extends AbstractEntity {
         return Objects.hash(id, user, title, content, status);
     }
 
-    public void updateOnStatus() {
-        this.status = BaseStatus.ACTIVE;
+    @Builder
+    public Agenda(Long id, User user, String title, String content, BaseStatus status) {
+        this.id = id;
+        this.user = user;
+        this.title = title;
+        this.content = content;
+        this.status = status;
     }
+
+    public void update(AgendaUpdateRequest agendaUpdateRequest) {
+        title = agendaUpdateRequest.getTitle();
+        content = agendaUpdateRequest.getContent();
+    }
+
 
     public void updateOffStatus() {
         this.status = BaseStatus.INACTIVE;

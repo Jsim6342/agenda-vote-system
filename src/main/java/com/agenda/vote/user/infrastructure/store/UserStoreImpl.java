@@ -32,10 +32,9 @@ public class UserStoreImpl implements UserStore {
     }
 
     @Override
-    public User deleteUser(Long userId) {
+    public void deleteUser(Long userId) {
         User user = userRepository.findByIdAndStatus(userId, ACTIVE)
                 .orElseThrow(() -> new NoExistUserException(USER_NOT_FOUND.getErrorMsg()));
         user.updateOffStatus();
-        return user;
     }
 }

@@ -7,7 +7,7 @@ import com.agenda.vote.user.interfaces.request.LoginRequest;
 import com.agenda.vote.user.interfaces.request.RegisterRequest;
 import com.agenda.vote.user.interfaces.request.UserUpdateRequest;
 import com.agenda.vote.user.interfaces.response.RegisterResponse;
-import com.agenda.vote.user.interfaces.response.UserInfoResponse;
+import com.agenda.vote.user.interfaces.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -35,9 +35,9 @@ public class UserApiController {
     }
 
     @GetMapping
-    public CommonResponse<UserInfoResponse> getUser(HttpServletRequest request) {
+    public CommonResponse<UserResponse> getUserResponse(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
-        return CommonResponse.success(userFacade.getUser(userId));
+        return CommonResponse.success(userFacade.getUserResponse(userId));
     }
 
     @PatchMapping

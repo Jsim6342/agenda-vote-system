@@ -6,16 +6,16 @@ import com.agenda.vote.user.domain.User;
 import com.agenda.vote.user.domain.user.interfaces.UserReader;
 import com.agenda.vote.user.domain.user.interfaces.UserService;
 import com.agenda.vote.user.domain.user.interfaces.UserStore;
-import com.agenda.vote.user.exception.NoMatchPasswordException;
+import com.agenda.vote.user.exception.NotMatchPasswordException;
 import com.agenda.vote.user.interfaces.request.LoginRequest;
 import com.agenda.vote.user.interfaces.request.RegisterRequest;
 import com.agenda.vote.user.interfaces.request.UserUpdateRequest;
-import com.agenda.vote.user.interfaces.response.UserInfoResponse;
+import com.agenda.vote.user.interfaces.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import static com.agenda.vote.common.response.ErrorCode.USER_PASSWORD_NOT_MATCH;
+import static com.agenda.vote.common.response.ErrorCode.USER_NOT_MATCH_PASSWORD;
 import static com.agenda.vote.config.security.certification.Secret.USER_INFO_PASSWORD_KEY;
 
 @Slf4j
@@ -39,16 +39,26 @@ public class UserServiceImpl implements UserService {
 
         String loginPassword = SHA256.encrypt(loginRequest.getPassword() + USER_INFO_PASSWORD_KEY);
         if (!user.getPassword().equals(loginPassword)) {
-            throw new NoMatchPasswordException(USER_PASSWORD_NOT_MATCH.getErrorMsg());
+            throw new NotMatchPasswordException(USER_NOT_MATCH_PASSWORD.getErrorMsg());
         }
 
         return user;
     }
 
     @Override
-    public UserInfoResponse getUser(Long userId) {
+    public User getUser(Long userId) {
+        return userReader.selectUser(userId);
+    }
+
+    @Override
+    public User getUser(String email) {
+        return userReader.selectUserByEmail(email);
+    }
+
+    @Override
+    public UserResponse getUserResponse(Long userId) {
         User user = userReader.selectUser(userId);
-        return new UserInfoResponse(user);
+        return new UserResponse(user);
     }
 
     @Override

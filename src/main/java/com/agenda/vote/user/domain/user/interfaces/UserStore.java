@@ -8,6 +8,6 @@ public interface UserStore {
 
     User saveUser(User user);
     User updateUser(Long userId, User updateUser);
-    User deleteUser(Long userId);
+    void deleteUser(Long userId);
 
 }

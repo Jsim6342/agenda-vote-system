@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
+import static com.agenda.vote.common.response.ErrorCode.AUTH_NOT_MATCH_AUTHORIZATION;
+import static com.agenda.vote.common.response.ErrorCode.AUTH_NO_LOGIN_INFO;
+
 
 @Component
 @RequiredArgsConstructor
@@ -42,17 +45,17 @@ public class AuthCheckInterceptor implements HandlerInterceptor {
                 request.setAttribute("userId", 0L);
                 return true;
             }
-            throw new CertifiedException("로그인 정보가 없습니다.");
-        }
-
-        // 관리자 페이지
-        if(checkAnnotation(handler, Admin.class)) {
-            if(userReader.checkAdmin(jwtService.getUserId())) return true;
-            throw new NoAuthorizedException("해당 회원은 관리자가 아닙니다.");
+            throw new CertifiedException(AUTH_NO_LOGIN_INFO.getErrorMsg());
         }
 
         // 로그인 인가 처리
         request.setAttribute("userId", jwtService.getUserId());
+
+        // 관리자 페이지
+        if(checkAnnotation(handler, Admin.class)) {
+            if(userReader.checkAdmin(jwtService.getUserId())) return true;
+            throw new NoAuthorizedException(AUTH_NOT_MATCH_AUTHORIZATION.getErrorMsg());
+        }
 
         return true;
     }

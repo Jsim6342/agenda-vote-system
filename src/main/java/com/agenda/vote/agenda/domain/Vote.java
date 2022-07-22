@@ -1,9 +1,11 @@
 package com.agenda.vote.agenda.domain;
 
+import com.agenda.vote.agenda.interfaces.request.VoteUpdateRequest;
 import com.agenda.vote.common.entity.AbstractEntity;
 import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.common.entity.VoteType;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -50,6 +52,23 @@ public class Vote extends AbstractEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, agenda, type, agreeCount, disagreeCount, startDate, endDate, status);
+    }
+
+    @Builder
+    public Vote(Long id, Agenda agenda, VoteType type, Long agreeCount, Long disagreeCount, LocalDateTime startDate, LocalDateTime endDate, BaseStatus status) {
+        this.id = id;
+        this.agenda = agenda;
+        this.type = type;
+        this.agreeCount = agreeCount;
+        this.disagreeCount = disagreeCount;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+    }
+
+    public void update(VoteUpdateRequest voteUpdateRequest) {
+        startDate = voteUpdateRequest.getStartDate();
+        endDate = voteUpdateRequest.getEndDate();
     }
 
     public void updateOnStatus() {
