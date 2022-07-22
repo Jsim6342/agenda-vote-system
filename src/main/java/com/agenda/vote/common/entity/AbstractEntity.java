@@ -1,4 +1,4 @@
-package com.agenda.vote.common;
+package com.agenda.vote.common.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

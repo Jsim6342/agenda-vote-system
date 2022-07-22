@@ -1,6 +1,7 @@
 package com.agenda.vote.user.infrastructure.read;
 
 
+import com.agenda.vote.config.security.Role;
 import com.agenda.vote.user.domain.User;
 import com.agenda.vote.user.domain.user.interfaces.UserReader;
 import com.agenda.vote.user.exception.NoExistUserException;
@@ -10,8 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
-import static com.agenda.vote.common.BaseStatus.ACTIVE;
+import static com.agenda.vote.common.entity.BaseStatus.ACTIVE;
 
 @Slf4j
 @Component
@@ -32,5 +34,13 @@ public class UserReaderImpl implements UserReader {
         return userRepository.findByIdAndStatus(userId, ACTIVE)
                 .orElseThrow(() -> new NoExistUserException("일치하는 회원 정보가 없습니다."));
 
+    }
+
+    @Override
+    public boolean checkAdmin(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoExistUserException("로그인 정보와 일치하는 회원 정보가 없습니다."));
+
+        return user.getRole().getName().equals(Role.ADMIN.getName());
     }
 }

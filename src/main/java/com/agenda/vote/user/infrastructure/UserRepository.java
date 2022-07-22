@@ -1,6 +1,6 @@
 package com.agenda.vote.user.infrastructure;
 
-import com.agenda.vote.common.BaseStatus;
+import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

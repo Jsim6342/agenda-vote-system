@@ -1,7 +1,7 @@
 package com.agenda.vote.agenda.domain;
 
-import com.agenda.vote.common.AbstractEntity;
-import com.agenda.vote.common.BaseStatus;
+import com.agenda.vote.common.entity.AbstractEntity;
+import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;

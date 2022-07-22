@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static com.agenda.vote.common.BaseStatus.ACTIVE;
+import static com.agenda.vote.common.entity.BaseStatus.ACTIVE;
 
 @Slf4j
 @Component

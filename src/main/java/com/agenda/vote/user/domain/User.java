@@ -1,7 +1,8 @@
 package com.agenda.vote.user.domain;
 
-import com.agenda.vote.common.AbstractEntity;
-import com.agenda.vote.common.BaseStatus;
+import com.agenda.vote.common.entity.AbstractEntity;
+import com.agenda.vote.common.entity.BaseStatus;
+import com.agenda.vote.config.security.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,9 @@ public class User extends AbstractEntity {
     private boolean isOAuth;
 
     @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Enumerated(EnumType.STRING)
     private BaseStatus status;
 
     @Override
@@ -45,12 +49,13 @@ public class User extends AbstractEntity {
     }
 
     @Builder
-    public User(Long id, String email, String password, Integer votingRightCount, boolean isOAuth, BaseStatus status) {
+    public User(Long id, String email, String password, Integer votingRightCount, boolean isOAuth, Role role, BaseStatus status) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.votingRightCount = votingRightCount;
         this.isOAuth = isOAuth;
+        this.role = role;
         this.status = status;
     }
 
