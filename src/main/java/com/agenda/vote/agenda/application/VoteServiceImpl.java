@@ -7,10 +7,8 @@ import com.agenda.vote.agenda.domain.vote.interfaces.VoteReader;
 import com.agenda.vote.agenda.domain.vote.interfaces.VoteService;
 import com.agenda.vote.agenda.domain.vote.interfaces.VoteStore;
 import com.agenda.vote.agenda.exception.BadVotingRequestException;
-import com.agenda.vote.agenda.interfaces.request.AgendaCreateRequest;
-import com.agenda.vote.agenda.interfaces.request.VoteCreateRequest;
-import com.agenda.vote.agenda.interfaces.request.VoteUpdateRequest;
-import com.agenda.vote.agenda.interfaces.request.VotingRequest;
+import com.agenda.vote.agenda.interfaces.request.*;
+import com.agenda.vote.agenda.interfaces.response.AgendaResponse;
 import com.agenda.vote.agenda.interfaces.response.VoteResponse;
 import com.agenda.vote.common.entity.Opinion;
 import com.agenda.vote.user.domain.User;
@@ -137,4 +135,5 @@ public class VoteServiceImpl implements VoteService {
     public Vote getVoteByAgenda(Agenda agenda) {
         return voteReader.getVoteByAgenda(agenda);
     }
+
 }

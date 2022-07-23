@@ -2,12 +2,12 @@ package com.agenda.vote.agenda.domain.vote.interfaces;
 
 import com.agenda.vote.agenda.domain.Agenda;
 import com.agenda.vote.agenda.domain.Vote;
-import com.agenda.vote.agenda.interfaces.request.AgendaCreateRequest;
-import com.agenda.vote.agenda.interfaces.request.VoteCreateRequest;
-import com.agenda.vote.agenda.interfaces.request.VoteUpdateRequest;
-import com.agenda.vote.agenda.interfaces.request.VotingRequest;
+import com.agenda.vote.agenda.interfaces.request.*;
+import com.agenda.vote.agenda.interfaces.response.AgendaResponse;
 import com.agenda.vote.agenda.interfaces.response.VoteResponse;
 import com.agenda.vote.user.domain.User;
+
+import java.util.List;
 
 public interface VoteService {
     void saveVote(Agenda agenda, AgendaCreateRequest agendaCreateRequest);
@@ -31,7 +31,6 @@ public interface VoteService {
     Long getTotalVotingCountByUser(Vote vote, User user);
 
     void createVoting(User user, Vote vote, VotingRequest votingRequest);
-
 
     Vote getVoteByAgenda(Agenda agenda);
 }

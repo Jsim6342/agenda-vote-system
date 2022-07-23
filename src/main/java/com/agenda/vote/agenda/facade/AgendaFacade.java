@@ -5,16 +5,15 @@ import com.agenda.vote.agenda.domain.Vote;
 import com.agenda.vote.agenda.domain.agenda.interfaces.AgendaService;
 import com.agenda.vote.agenda.domain.vote.interfaces.VoteService;
 import com.agenda.vote.agenda.exception.*;
-import com.agenda.vote.agenda.interfaces.request.AgendaCreateRequest;
-import com.agenda.vote.agenda.interfaces.request.AgendaUpdateRequest;
-import com.agenda.vote.agenda.interfaces.request.VoteCreateRequest;
-import com.agenda.vote.agenda.interfaces.request.VotingRequest;
+import com.agenda.vote.agenda.interfaces.request.*;
 import com.agenda.vote.agenda.interfaces.response.AgendaResponse;
+import com.agenda.vote.agenda.interfaces.response.AgendaSearchResponse;
 import com.agenda.vote.agenda.interfaces.response.VoteResponse;
 import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.common.entity.VoteType;
 import com.agenda.vote.user.domain.User;
 import com.agenda.vote.user.domain.user.interfaces.UserService;
+import com.agenda.vote.user.exception.NoExistUserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -155,4 +154,32 @@ public class AgendaFacade {
         vote.voting(votingRequest);
         voteService.createVoting(user, vote, votingRequest);
     }
+
+    public List<AgendaResponse> searchAgendaResponses(Long userId, SearchFilter searchFilter) {
+        User loinUser = userService.getUser(userId);
+
+        User searchUser = null;
+        if (searchFilter.getUserId() != null) {
+            try {
+                searchUser = userService.getUser(searchFilter.getUserId());
+            }catch (NoExistUserException e) {
+
+            }
+        }
+
+        List<AgendaSearchResponse> agendaSearchResponses = agendaService.searchAgendaResponses(searchUser, searchFilter);
+        List<AgendaResponse> agendaResponseList = new ArrayList<>();
+        for (AgendaSearchResponse agendaSearchResponse : agendaSearchResponses) {
+            Agenda agenda = agendaService.getAgenda(agendaSearchResponse.getAgendaId());
+            VoteResponse voteResponse = voteService.getVoteResponse(loinUser, agenda);
+
+            AgendaResponse agendaResponse = new AgendaResponse(agendaSearchResponse.getTitle(),
+                    agendaSearchResponse.getContent(), voteResponse);
+
+            agendaResponseList.add(agendaResponse);
+        }
+
+        return agendaResponseList;
+    }
+
 }

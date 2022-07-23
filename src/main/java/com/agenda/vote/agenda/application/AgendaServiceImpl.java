@@ -7,6 +7,9 @@ import com.agenda.vote.agenda.domain.agenda.interfaces.AgendaStore;
 import com.agenda.vote.agenda.exception.VoteDateException;
 import com.agenda.vote.agenda.interfaces.request.AgendaCreateRequest;
 import com.agenda.vote.agenda.interfaces.request.AgendaUpdateRequest;
+import com.agenda.vote.agenda.interfaces.request.SearchFilter;
+import com.agenda.vote.agenda.interfaces.response.AgendaResponse;
+import com.agenda.vote.agenda.interfaces.response.AgendaSearchResponse;
 import com.agenda.vote.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,9 +57,15 @@ public class AgendaServiceImpl implements AgendaService {
         }
         agendaStore.updateAgenda(agendaId, agendaUpdateRequest);
     }
-
     @Override
     public void deleteAgenda(Long agendaId) {
         agendaStore.deleteAgenda(agendaId);
     }
+
+    @Override
+    public List<AgendaSearchResponse> searchAgendaResponses(User user, SearchFilter searchFilter) {
+        return agendaReader.searchAgendaResponses(user, searchFilter);
+    }
+
+
 }

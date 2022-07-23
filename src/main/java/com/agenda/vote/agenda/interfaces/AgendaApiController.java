@@ -2,20 +2,19 @@ package com.agenda.vote.agenda.interfaces;
 
 
 import com.agenda.vote.agenda.facade.AgendaFacade;
-import com.agenda.vote.agenda.interfaces.request.AgendaCreateRequest;
-import com.agenda.vote.agenda.interfaces.request.AgendaUpdateRequest;
-import com.agenda.vote.agenda.interfaces.request.VoteCreateRequest;
-import com.agenda.vote.agenda.interfaces.request.VotingRequest;
+import com.agenda.vote.agenda.interfaces.request.*;
 import com.agenda.vote.agenda.interfaces.response.AgendaResponse;
 import com.agenda.vote.common.annotation.Admin;
 import com.agenda.vote.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -86,6 +85,16 @@ public class AgendaApiController {
         Long userId = (Long)request.getAttribute("userId");
         agendaFacade.voting(userId, agendaId, votingRequest);
         return CommonResponse.success(HttpStatus.OK);
+    }
+
+    @GetMapping("/votes/search")
+    public CommonResponse<List<AgendaResponse>> searchAgendaResponses(@RequestParam(required = false) Long searchUserId,
+                                                                      @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
+                                                                      @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate,
+                                                                      HttpServletRequest request) {
+        Long userId = (Long)request.getAttribute("userId");
+        SearchFilter searchFilter = new SearchFilter(searchUserId, startDate, endDate);
+        return CommonResponse.success(agendaFacade.searchAgendaResponses(userId, searchFilter));
     }
 
 
