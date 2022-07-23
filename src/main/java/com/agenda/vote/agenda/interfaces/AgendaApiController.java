@@ -4,6 +4,8 @@ package com.agenda.vote.agenda.interfaces;
 import com.agenda.vote.agenda.facade.AgendaFacade;
 import com.agenda.vote.agenda.interfaces.request.AgendaCreateRequest;
 import com.agenda.vote.agenda.interfaces.request.AgendaUpdateRequest;
+import com.agenda.vote.agenda.interfaces.request.VoteCreateRequest;
+import com.agenda.vote.agenda.interfaces.request.VotingRequest;
 import com.agenda.vote.agenda.interfaces.response.AgendaResponse;
 import com.agenda.vote.common.annotation.Admin;
 import com.agenda.vote.common.response.CommonResponse;
@@ -35,14 +37,16 @@ public class AgendaApiController {
     }
 
     @GetMapping
-    public CommonResponse<List<AgendaResponse>> getAgendaResponseList() {
-        return CommonResponse.success(agendaFacade.getAgendaResponseList());
+    public CommonResponse<List<AgendaResponse>> getAgendaResponseList(HttpServletRequest request) {
+        Long userId = (Long)request.getAttribute("userId");
+        return CommonResponse.success(agendaFacade.getAgendaResponseList(userId));
     }
 
     @GetMapping("/{agendaId}")
-    public CommonResponse<AgendaResponse> getAgendaResponse(@PathVariable Long agendaId) {
-
-        return CommonResponse.success(agendaFacade.getAgendaResponse(agendaId));
+    public CommonResponse<AgendaResponse> getAgendaResponse(@PathVariable Long agendaId,
+                                                            HttpServletRequest request) {
+        Long userId = (Long)request.getAttribute("userId");
+        return CommonResponse.success(agendaFacade.getAgendaResponse(userId, agendaId));
     }
 
     @Admin
@@ -64,6 +68,25 @@ public class AgendaApiController {
         return CommonResponse.success(HttpStatus.OK);
     }
 
+
+    @Admin
+    @PostMapping("/{agendaId}/votes")
+    public CommonResponse<HttpStatus> createVote(@PathVariable Long agendaId,
+                                                 @Validated @RequestBody VoteCreateRequest voteCreateRequest,
+                                                 HttpServletRequest request) {
+        Long userId = (Long)request.getAttribute("userId");
+        agendaFacade.createVote(userId, agendaId, voteCreateRequest);
+        return CommonResponse.success(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{agendaId}/votes")
+    public CommonResponse<HttpStatus> voting(@PathVariable Long agendaId,
+                                             @RequestBody VotingRequest votingRequest,
+                                             HttpServletRequest request) {
+        Long userId = (Long)request.getAttribute("userId");
+        agendaFacade.voting(userId, agendaId, votingRequest);
+        return CommonResponse.success(HttpStatus.OK);
+    }
 
 
 

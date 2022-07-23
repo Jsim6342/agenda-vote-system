@@ -5,6 +5,7 @@ import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.common.entity.Opinion;
 import com.agenda.vote.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,7 +33,7 @@ public class Voting extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Opinion opinion;
 
-    private Integer votingCount;
+    private Long votingCount;
 
     @Enumerated(EnumType.STRING)
     private BaseStatus status;
@@ -48,6 +49,16 @@ public class Voting extends AbstractEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, user, vote, opinion, votingCount, status);
+    }
+
+    @Builder
+    public Voting(Long id, User user, Vote vote, Opinion opinion, Long votingCount, BaseStatus status) {
+        this.id = id;
+        this.user = user;
+        this.vote = vote;
+        this.opinion = opinion;
+        this.votingCount = votingCount;
+        this.status = status;
     }
 
     public void updateOnStatus() {

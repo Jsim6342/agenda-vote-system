@@ -5,19 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AgendaUpdateRequest {
-
+public class VotingRequest {
     @NotBlank
-    private String title;
+    private Long agreeCount;
     @NotBlank
-    private String content;
-    @Valid
-    private VoteUpdateRequest vote;
-
+    private Long disagreeCount;
 }

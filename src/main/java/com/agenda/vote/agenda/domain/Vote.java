@@ -1,6 +1,8 @@
 package com.agenda.vote.agenda.domain;
 
+import com.agenda.vote.agenda.interfaces.request.VoteCreateRequest;
 import com.agenda.vote.agenda.interfaces.request.VoteUpdateRequest;
+import com.agenda.vote.agenda.interfaces.request.VotingRequest;
 import com.agenda.vote.common.entity.AbstractEntity;
 import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.common.entity.VoteType;
@@ -71,6 +73,18 @@ public class Vote extends AbstractEntity {
         endDate = voteUpdateRequest.getEndDate();
     }
 
+    public void updateExistVote(VoteCreateRequest voteCreateRequest) {
+        type = voteCreateRequest.getType();
+        startDate = voteCreateRequest.getStartDate();
+        endDate = voteCreateRequest.getEndDate();
+        status = BaseStatus.ACTIVE;
+    }
+
+    public void voting(VotingRequest votingRequest) {
+        agreeCount += votingRequest.getAgreeCount();
+        disagreeCount += votingRequest.getDisagreeCount();
+    }
+
     public void updateOnStatus() {
         this.status = BaseStatus.ACTIVE;
     }
@@ -78,4 +92,7 @@ public class Vote extends AbstractEntity {
     public void updateOffStatus() {
         this.status = BaseStatus.INACTIVE;
     }
+
+
+
 }

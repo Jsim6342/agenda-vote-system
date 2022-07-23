@@ -18,4 +18,5 @@ public class VoteResponse {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private LocalDateTime created;
+    private Long extraRightCount;
 }

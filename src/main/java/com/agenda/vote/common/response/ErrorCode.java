@@ -24,7 +24,15 @@ public enum ErrorCode {
     AGENDA_NOT_MATCH_POSTER("작성자와 일치하지 않는 유저입니다."),
 
     VOTE_NOT_FOUND("일치하는 투표 정보가 없습니다."),
-    VOTE_INVALID_DATE("투표 일정 값이 올바르지 않습니다.");
+    VOTE_INVALID_DATE("투표 일정 값이 올바르지 않습니다."),
+    VOTE_INSUFFICIENT_RIGHT_COUNT("의결권이 부족합니다."),
+    VOTE_NOT_MATCH_AGENDA("안건과 일치하는 투표가 아닙니다."),
+    VOTE_NOT_MATCH_DATE("투표 일정에 알맞지 않습니다."),
+    VOTE_TYPE_INSUFFICIENT_CONDITION("투표 조건에 알맞지 않습니다. 의결권 선착순 제한 투표는 10개로 제한됩니다."),
+    VOTE_BAD_REQUEST("잘못된 투표 요청입니다. 요청당 찬성 또는 반대 하나에만 투표해주세요"),
+    VOTE_ALREADY_EXIST("이미 생성된 투표가 있습니다."),
+    VOTE_ALREADY_START("이미 시작한 투표입니다."),
+    VOTE_NOT_ALLOW_DATE("허용되지 않은 투표 일정입니다.");
 
 
 

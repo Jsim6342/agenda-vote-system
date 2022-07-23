@@ -1,9 +1,6 @@
 package com.agenda.vote.common.response;
 
-import com.agenda.vote.agenda.exception.NoExistAgendaException;
-import com.agenda.vote.agenda.exception.NoExistVoteException;
-import com.agenda.vote.agenda.exception.NotMatchPosterException;
-import com.agenda.vote.agenda.exception.VoteDateException;
+import com.agenda.vote.agenda.exception.*;
 import com.agenda.vote.common.exception.CertifiedException;
 import com.agenda.vote.common.exception.NoAuthorizedException;
 import com.agenda.vote.user.exception.AlreadyEmailUsedException;
@@ -123,6 +120,57 @@ public class ExceptionAdvice {
         log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
         return CommonResponse.fail(ErrorCode.VOTE_INVALID_DATE);
     }
+
+    @ExceptionHandler(InsufficientRightCountException.class)
+    public CommonResponse insufficientRightCountException(InsufficientRightCountException e) {
+        log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        return CommonResponse.fail(ErrorCode.VOTE_INSUFFICIENT_RIGHT_COUNT);
+    }
+
+    @ExceptionHandler(NotMatchPostException.class)
+    public CommonResponse notMatchPostException(NotMatchPostException e) {
+        log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        return CommonResponse.fail(ErrorCode.VOTE_NOT_MATCH_AGENDA);
+    }
+
+    @ExceptionHandler(BadVotingRequestException.class)
+    public CommonResponse badVotingRequestException(BadVotingRequestException e) {
+        log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        return CommonResponse.fail(ErrorCode.VOTE_BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AlreadyExistVoteException.class)
+    public CommonResponse alreadyExistVoteException(AlreadyExistVoteException e) {
+        log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        return CommonResponse.fail(ErrorCode.VOTE_ALREADY_EXIST);
+    }
+
+    @ExceptionHandler(NotMatchDateException.class)
+    public CommonResponse notMatchDateException(NotMatchDateException e) {
+        log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        return CommonResponse.fail(ErrorCode.VOTE_INVALID_DATE);
+    }
+
+    @ExceptionHandler(AlreadyStartVoteException.class)
+    public CommonResponse alreadyStartVoteException(AlreadyStartVoteException e) {
+        log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        return CommonResponse.fail(ErrorCode.VOTE_ALREADY_START);
+    }
+
+    @ExceptionHandler(TypeInsufficientConditionException.class)
+    public CommonResponse typeInsufficientConditionException(TypeInsufficientConditionException e) {
+        log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        return CommonResponse.fail(ErrorCode.VOTE_TYPE_INSUFFICIENT_CONDITION);
+    }
+
+    @ExceptionHandler(NotAllowDateException.class)
+    public CommonResponse notAllowDateException(NotAllowDateException e) {
+        log.error("cause = {}, errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e), NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        return CommonResponse.fail(ErrorCode.VOTE_NOT_ALLOW_DATE);
+    }
+
+
+
 
 
 
