@@ -39,6 +39,3 @@ out/
 ### 설정 및 private 파일 ###
 src/main/resources/
 src/main/java/com/agenda/vote/config/security/certification
-
-### 테스트 코드(임시) ###
-src/test/

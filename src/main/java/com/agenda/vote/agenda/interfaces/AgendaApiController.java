@@ -93,8 +93,8 @@ public class AgendaApiController {
                                                                       @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate,
                                                                       HttpServletRequest request) {
         Long userId = (Long)request.getAttribute("userId");
-        SearchFilter searchFilter = new SearchFilter(searchUserId, startDate, endDate);
-        return CommonResponse.success(agendaFacade.searchAgendaResponses(userId, searchFilter));
+        VoteSearchFilter voteSearchFilter = new VoteSearchFilter(searchUserId, startDate, endDate);
+        return CommonResponse.success(agendaFacade.searchAgendaResponses(userId, voteSearchFilter));
     }
 
 

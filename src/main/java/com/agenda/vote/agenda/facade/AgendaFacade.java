@@ -17,8 +17,10 @@ import com.agenda.vote.user.exception.NoExistUserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class AgendaFacade {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<AgendaResponse> getAgendaResponseList(Long userId) {
         User user = userService.getUser(userId);
         List<Agenda> agendaList = agendaService.getAgendaList();
@@ -62,7 +64,7 @@ public class AgendaFacade {
         return agendaResponseList;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public AgendaResponse getAgendaResponse(Long userId, Long agendaId) {
         User user = userService.getUser(userId);
         Agenda agenda = agendaService.getAgenda(agendaId);
@@ -124,7 +126,7 @@ public class AgendaFacade {
 
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void voting(Long userId, Long agendaId, VotingRequest votingRequest) {
         User user = userService.getUser(userId);
         Agenda agenda = agendaService.getAgenda(agendaId);
@@ -155,19 +157,20 @@ public class AgendaFacade {
         voteService.createVoting(user, vote, votingRequest);
     }
 
-    public List<AgendaResponse> searchAgendaResponses(Long userId, SearchFilter searchFilter) {
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public List<AgendaResponse> searchAgendaResponses(Long userId, VoteSearchFilter voteSearchFilter) {
         User loinUser = userService.getUser(userId);
 
         User searchUser = null;
-        if (searchFilter.getUserId() != null) {
+        if (voteSearchFilter.getUserId() != null) {
             try {
-                searchUser = userService.getUser(searchFilter.getUserId());
+                searchUser = userService.getUser(voteSearchFilter.getUserId());
             }catch (NoExistUserException e) {
 
             }
         }
 
-        List<AgendaSearchResponse> agendaSearchResponses = agendaService.searchAgendaResponses(searchUser, searchFilter);
+        List<AgendaSearchResponse> agendaSearchResponses = agendaService.searchAgendaResponses(searchUser, voteSearchFilter);
         List<AgendaResponse> agendaResponseList = new ArrayList<>();
         for (AgendaSearchResponse agendaSearchResponse : agendaSearchResponses) {
             Agenda agenda = agendaService.getAgenda(agendaSearchResponse.getAgendaId());

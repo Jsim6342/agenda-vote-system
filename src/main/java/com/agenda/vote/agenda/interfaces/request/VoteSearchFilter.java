@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SearchFilter {
+public class VoteSearchFilter {
 
     private Long userId;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")

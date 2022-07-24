@@ -4,12 +4,10 @@ import com.agenda.vote.agenda.domain.Agenda;
 import com.agenda.vote.agenda.domain.agenda.interfaces.AgendaReader;
 import com.agenda.vote.agenda.exception.NoExistAgendaException;
 import com.agenda.vote.agenda.infrastructure.AgendaRepository;
-import com.agenda.vote.agenda.interfaces.request.SearchFilter;
-import com.agenda.vote.agenda.interfaces.response.AgendaResponse;
+import com.agenda.vote.agenda.interfaces.request.VoteSearchFilter;
 import com.agenda.vote.agenda.interfaces.response.AgendaSearchResponse;
 import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.user.domain.User;
-import com.agenda.vote.user.exception.NoExistUserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -36,8 +34,8 @@ public class AgendaReaderImpl implements AgendaReader {
                 .orElseThrow(() -> new NoExistAgendaException(AGENDA_NOT_FOUND.getErrorMsg()));
     }
     @Override
-    public List<AgendaSearchResponse> searchAgendaResponses(User user, SearchFilter searchFilter) {
-        return agendaRepository.searchAgendaResponses(user, searchFilter);
+    public List<AgendaSearchResponse> searchAgendaResponses(User user, VoteSearchFilter voteSearchFilter) {
+        return agendaRepository.searchAgendaResponses(user, voteSearchFilter);
     }
 
 }

@@ -1,19 +1,10 @@
 package com.agenda.vote.agenda.infrastructure;
 
-import com.agenda.vote.agenda.domain.Agenda;
-import com.agenda.vote.agenda.domain.QAgenda;
-import com.agenda.vote.agenda.domain.QVote;
-import com.agenda.vote.agenda.domain.QVoting;
-import com.agenda.vote.agenda.infrastructure.AgendaRepositoryQueryDsl;
-import com.agenda.vote.agenda.interfaces.request.SearchFilter;
-import com.agenda.vote.agenda.interfaces.response.AgendaResponse;
+import com.agenda.vote.agenda.interfaces.request.VoteSearchFilter;
 import com.agenda.vote.agenda.interfaces.response.AgendaSearchResponse;
-import com.agenda.vote.common.entity.BaseStatus;
 import com.agenda.vote.user.domain.User;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -22,7 +13,6 @@ import java.util.List;
 
 import static com.agenda.vote.agenda.domain.QAgenda.*;
 import static com.agenda.vote.agenda.domain.QVote.*;
-import static com.agenda.vote.agenda.domain.QVoting.*;
 import static com.agenda.vote.common.entity.BaseStatus.ACTIVE;
 
 public class AgendaRepositoryImpl implements AgendaRepositoryQueryDsl {
@@ -34,7 +24,7 @@ public class AgendaRepositoryImpl implements AgendaRepositoryQueryDsl {
     }
 
     @Override
-    public List<AgendaSearchResponse> searchAgendaResponses(User nowUser, SearchFilter searchFilter) {
+    public List<AgendaSearchResponse> searchAgendaResponses(User nowUser, VoteSearchFilter voteSearchFilter) {
 
     return queryFactory
             .select(Projections.fields(AgendaSearchResponse.class,
@@ -47,8 +37,8 @@ public class AgendaRepositoryImpl implements AgendaRepositoryQueryDsl {
             .leftJoin(vote.agenda, agenda)
             .where(
                     userEq(nowUser),
-                    startDateGoe(searchFilter.getStartDate()),
-                    endDateLoe(searchFilter.getEndDate()),
+                    startDateGoe(voteSearchFilter.getStartDate()),
+                    endDateLoe(voteSearchFilter.getEndDate()),
                     agenda.status.eq(ACTIVE))
             .fetch();
     }
