@@ -22,24 +22,40 @@ public class UserApiController {
 
     private final UserFacade userFacade;
 
+    /**
+     * 유저 등록 API
+     * [POST] /api/v1/users
+     */
     @Guest
     @PostMapping
     public CommonResponse<RegisterResponse> registerUser(@Validated @RequestBody RegisterRequest registerRequest) {
         return CommonResponse.success(userFacade.registerUser(registerRequest));
     }
 
+    /**
+     * 로그인 API
+     * [POST] /api/v1/users/login
+     */
     @Guest
     @PostMapping("/login")
     public CommonResponse<String> login(@RequestBody LoginRequest loginRequest) {
         return CommonResponse.success(userFacade.login(loginRequest));
     }
 
+    /**
+     * 유저 조회 API
+     * [GET] /api/v1/users
+     */
     @GetMapping
     public CommonResponse<UserResponse> getUserResponse(HttpServletRequest request) {
         Long userId = (Long) request.getAttribute("userId");
         return CommonResponse.success(userFacade.getUserResponse(userId));
     }
 
+    /**
+     * 유저 수정 API
+     * [PATCH] /api/v1/users
+     */
     @PatchMapping
     public CommonResponse<HttpStatus> updateUser(@Validated @RequestBody UserUpdateRequest userUpdateRequest,
                                                  HttpServletRequest request) {
@@ -48,6 +64,10 @@ public class UserApiController {
         return CommonResponse.success(HttpStatus.OK);
     }
 
+    /**
+     * 유저 삭제 API
+     * [DELETE] /api/v1/users
+     */
     @DeleteMapping
     public CommonResponse<HttpStatus> deleteUser(HttpServletRequest request) {
         Long userId = (Long)request.getAttribute("userId");
