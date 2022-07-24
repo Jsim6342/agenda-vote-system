@@ -16,6 +16,8 @@ import com.agenda.vote.user.domain.user.interfaces.UserService;
 import com.agenda.vote.user.exception.NoExistUserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +27,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import static com.agenda.vote.common.response.ErrorCode.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AgendaFacade {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     private final AgendaService agendaService;
     private final VoteService voteService;
@@ -155,6 +160,9 @@ public class AgendaFacade {
 
         vote.voting(votingRequest);
         voteService.createVoting(user, vote, votingRequest);
+
+        logger.info("[투표 수행] 유저id: {}, 안건id: {}, 찬성표: {}, 반대표: {}",
+                userId, agendaId, votingRequest.getAgreeCount(), votingRequest.getDisagreeCount());
     }
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
